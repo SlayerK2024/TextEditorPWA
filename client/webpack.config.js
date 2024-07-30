@@ -26,17 +26,20 @@ module.exports = () => {
       
       // Generates a Web App Manifest file
       new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
         name: 'Text Editor',
         short_name: 'EditApp',
         description: 'A progressive web app example',
         background_color: '#ffffff',
         theme_color: '#000000',
         start_url: '/',
+        publicPath: './',
         display: 'standalone',
         orientation: 'portrait',
         icons: [
           {
-            src: path.resolve('src/images/icon.png'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
@@ -45,8 +48,8 @@ module.exports = () => {
 
       // Injects the service worker file into the build
       new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: 'sw.js',
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
       }),
     ],
 
