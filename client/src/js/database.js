@@ -12,25 +12,32 @@ const initdb = async () =>
     },
   });
 
-// TODO: Add logic to a method that accepts some content and adds it to the database
-export const putDb = async (id, content) => {
-  const JateDb = await openDB('jate', 1);
-  const tx = JateDb.transaction('jate', 'readwrite');
-  const store = tx.objectStore('jate');
-  const request = store.put({ id: id, text: content });
-  const result = await request;
-  console.log('Content added to the database', result);
+export const putDb = async (content) => {
+  try {
+    const db = await openDB('jate', 1);
+    const tx = db.transaction('jate', 'readwrite');
+    const store = tx.objectStore('jate');
+    const request = store.put({ id: 1, text: content });
+    const result = await request;
+    console.log('Content added to the database', result);
+  } catch (error) {
+    console.error('Failed to add content to the database:', error);
+  }
 };
 
-// TODO: Add logic for a method that gets all the content from the database
 export const getAllDb = async () => {
-  const JateDb = await openDB('jate', 1);
-  const tx = JateDb.transaction('jate', 'readonly');
-  const store = tx.objectStore('jate');
-  const request = store.getAll();
-  const result = await request;
-console.log('result.value', result);
-return result;
+  try {
+    const db = await openDB('jate', 1);
+    const tx = db.transaction('jate', 'readonly');
+    const store = tx.objectStore('jate');
+    const request = store.getAll();
+    const result = await request;
+    console.log('Retrieved all entries:', result);
+    return result;
+  } catch (error) {
+    console.error('Failed to retrieve content from the database:', error);
+    return [];
+  }
 };
 
 initdb();
